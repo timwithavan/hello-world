@@ -5,71 +5,98 @@ This file provides guidance for AI assistants working with this repository.
 ## Repository Overview
 
 **Name:** hello-world
-**Type:** Starter/learning repository
-**Status:** Minimal - contains only a README.md
+**Type:** Learning repository with UniFi MCP integration
 
-This is a simple starter repository used for learning and experimentation.
+This repository contains a UniFi MCP (Model Context Protocol) server that enables Claude to interact with UniFi network controllers.
 
 ## Current Structure
 
 ```
 hello-world/
-├── README.md      # Project description
-└── CLAUDE.md      # AI assistant guidance (this file)
+├── README.md                    # Project description
+├── CLAUDE.md                    # AI assistant guidance (this file)
+└── unifi-mcp-server/            # UniFi MCP server
+    ├── src/
+    │   ├── index.ts             # MCP server entry point
+    │   └── unifi-client.ts      # UniFi API client
+    ├── package.json
+    ├── tsconfig.json
+    ├── .env.example             # Environment variable template
+    └── README.md                # MCP server documentation
 ```
+
+## UniFi MCP Server
+
+### Quick Start
+
+```bash
+cd unifi-mcp-server
+npm install
+npm run build
+```
+
+### Configuration
+
+Set these environment variables:
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `UNIFI_CONTROLLER_URL` | Yes | Controller URL (e.g., `https://192.168.1.1:443`) |
+| `UNIFI_USERNAME` | Yes | Local admin username |
+| `UNIFI_PASSWORD` | Yes | Admin password |
+| `UNIFI_SITE` | No | Site name (default: `default`) |
+| `UNIFI_IS_UDM_PRO` | No | Set `true` for UDM Pro/SE/UCG |
+
+### Available Tools
+
+- `unifi_list_devices` - List all network devices
+- `unifi_get_device` - Get device details by MAC
+- `unifi_list_clients` - List connected clients
+- `unifi_get_client` - Get client details by MAC
+- `unifi_get_site_health` - Get site health status
+- `unifi_get_system_info` - Get controller info
+- `unifi_get_alerts` - Get active alerts
+- `unifi_restart_device` - Restart a device
+- `unifi_block_client` - Block a client
+- `unifi_unblock_client` - Unblock a client
+- `unifi_reconnect_client` - Force client reconnection
+- `unifi_get_dpi_stats` - Get DPI statistics
 
 ## Development Workflow
 
 ### Git Practices
 
 - **Default branch:** main
-- **Commit messages:** Use clear, descriptive messages explaining what changed and why
-- **Pull requests:** Create PRs for significant changes; small fixes can be committed directly
+- **Commit messages:** Use clear, descriptive messages
+- **Pull requests:** Create PRs for significant changes
 
 ### Branch Naming
 
-When creating branches, use descriptive prefixes:
 - `feature/` - New features
 - `fix/` - Bug fixes
 - `docs/` - Documentation updates
-- `claude/` - AI-generated changes (auto-prefixed)
+- `claude/` - AI-generated changes
 
-## Conventions for AI Assistants
+## Code Style
 
-### When Making Changes
-
-1. **Read before modifying** - Always read existing files before suggesting changes
-2. **Keep it simple** - This is a learning repository; avoid over-engineering
-3. **Explain changes** - Provide clear commit messages and explanations
-4. **Preserve intent** - Maintain the educational/starter nature of the repository
-
-### Code Style (for future code additions)
-
-When code is added to this repository:
-- Use consistent indentation (2 spaces recommended)
-- Add comments for non-obvious logic
-- Keep files focused and single-purpose
-- Include appropriate documentation
-
-### Documentation
-
-- Update README.md when adding new features or significant changes
-- Keep documentation concise and beginner-friendly
-- Use markdown formatting consistently
+- TypeScript with strict mode
+- 2-space indentation
+- ES modules (`"type": "module"`)
+- Comprehensive JSDoc comments for public APIs
 
 ## Commands
 
-Currently no build/test commands are configured. As the project grows, add relevant commands here:
-
 ```bash
-# Placeholder for future commands
-# npm install    - Install dependencies
-# npm test       - Run tests
-# npm run build  - Build project
+# UniFi MCP Server
+cd unifi-mcp-server
+npm install         # Install dependencies
+npm run build       # Compile TypeScript
+npm run dev         # Run in development mode
+npm start           # Run compiled server
 ```
 
 ## Notes
 
-- This repository is intentionally minimal
-- It serves as a starting point for learning Git and GitHub workflows
-- Feel free to expand it with code, tests, and documentation as needed
+- The UniFi API is undocumented and may change between versions
+- Local admin accounts are required (SSO/cloud not supported)
+- Self-signed SSL certificates are accepted by default
